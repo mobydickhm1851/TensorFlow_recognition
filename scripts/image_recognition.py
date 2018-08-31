@@ -17,8 +17,10 @@ class RosTensorFlow():
         classify_image.create_graph()
         self._cv_bridge = CvBridge()
 
-        self._sub = rospy.Subscriber('image', Image, self.callback, queue_size=1)
-        self._pub = rospy.Publisher('result', String, queue_size=1)
+	image = rospy.get_param('~image','/image_raw')
+
+        self._sub = rospy.Subscriber(image, Image, self.callback, queue_size=1)
+        self._pub = rospy.Publisher('/result', String, queue_size=1)
         self.score_threshold = rospy.get_param('~score_threshold', 0.1)
         self.use_top_k = rospy.get_param('~use_top_k', 5)
 
